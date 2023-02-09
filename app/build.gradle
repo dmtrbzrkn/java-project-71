@@ -32,8 +32,11 @@ application {
 }
 
 dependencies {
-    implementation 'info.picocli:picocli:4.7.1'
-
+    implementation(
+            'info.picocli:picocli:4.6.1',
+            'com.fasterxml.jackson.core:jackson-databind:2.13.0',
+            'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.4'
+    )
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
@@ -45,10 +48,6 @@ dependencies {
     )
 
     errorprone 'com.google.errorprone:error_prone_core:2.11.0'
-
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
-
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0'
 }
 
 test {

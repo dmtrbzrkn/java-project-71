@@ -15,7 +15,7 @@ public class DifferTest {
     }
 
     private final String expectedStylishResult = Files.readString(Path.
-            of("/home/hexlet/Documents/projects/java-project-71/app/src/test/resources/ExpectedStylish.txt"));
+            of("src/test/resources/ExpectedStylish.txt"));
 
     @Test
     void testGenerateStylishOutputFormat() throws Exception {

@@ -5,14 +5,18 @@ import hexlet.code.parsers.Parser;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Differ {
     public static final String ADDED = "added";
     public static final String MISSING = "missing";
     public static final String CHANGED = "changed";
     public static final String UNCHANGED = "unchanged";
-    public static final String EMPTY_VALUE = "";
+    public static final String EMPTY_VALUE = " ";
     public static final String OLD_VALUE = "oldValue";
     public static final String NEW_VALUE = "newValue";
 

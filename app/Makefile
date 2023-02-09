@@ -10,7 +10,7 @@ install:
 	./gradlew clean install
 
 run-dist:
-	./build/install/app/bin/app
+	./build/install/java-package/bin/java-package
 
 run:
 	./gradlew run

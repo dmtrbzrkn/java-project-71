@@ -1,7 +1,7 @@
 package hexlet.code;
 
 import hexlet.code.formatters.Stylish;
-import hexlet.code.parsers.Parser;
+import hexlet.code.parsers.Factory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -56,6 +56,11 @@ public class Differ {
             throw new Exception("File '" + path + "' does not exist");
         }
         String contents = Files.readString(path);
-        return Parser.parse(contents);
+        var parser = Factory.getParser(getFileExtension(String.valueOf(path)));
+        return parser.parse(contents);
+    }
+
+    private static String getFileExtension(String pathToFile) {
+        return pathToFile.substring(pathToFile.indexOf(".") + 1);
     }
 }

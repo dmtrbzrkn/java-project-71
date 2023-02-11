@@ -11,9 +11,9 @@ import static hexlet.code.Differ.UNCHANGED;
 import static hexlet.code.Differ.OLD_VALUE;
 
 public class Stylish {
-    public static String format(List<Map<String, String>> result) {
+    public static String format(List<Map<String, Object>> result) {
         StringBuilder stylish = new StringBuilder("{\n");
-        for (Map<String, String> entry : result) {
+        for (Map<String, Object> entry : result) {
             for (Object key : entry.keySet()) {
                 if (key.equals(ADDED)) {
                     stylish.append("  + ").append(entry.get(ADDED)).append(": ")

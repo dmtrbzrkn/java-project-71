@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class YMLParser implements Parser {
     @Override
-    public Map<String, String> parse(String content) throws Exception {
+    public Map<String, Object> parse(String content) throws Exception {
         ObjectMapper objectMapper = new YAMLMapper();
         return objectMapper.readValue(content, new TypeReference<>() {
             @Override

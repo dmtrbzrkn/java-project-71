@@ -4,6 +4,6 @@ import java.util.Map;
 
 public interface Parser {
 
-    Map<String, String> parse(String content) throws Exception;
+    Map<String, Object> parse(String content) throws Exception;
 
 }

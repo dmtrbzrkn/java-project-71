@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class JSONParser implements Parser {
     @Override
-    public Map<String, String> parse(String fileContents) throws Exception {
+    public Map<String, Object> parse(String fileContents) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(fileContents, new TypeReference<>() {
         });

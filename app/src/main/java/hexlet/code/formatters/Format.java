@@ -9,6 +9,9 @@ public class Format {
             case "STYLISH" -> {
                 return Stylish.format(diff);
             }
+            case "PLAIN" -> {
+                return Plain.format(diff);
+            }
             default -> throw new Exception("Unknown format for output to the screen: " + outPutFormat);
         }
     }

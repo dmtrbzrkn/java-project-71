@@ -7,4 +7,5 @@
 ### ASCIINEMA
 [JSON to Stylish](https://asciinema.org/a/z72c99d3xxVIZNgEoUnL9iqUC) 
 [YML to Stylish](https://asciinema.org/a/dcTJzH6zFv87BABmNyIr2qgUV) 
-[Output with and without parameter](https://asciinema.org/a/kkCehHWvm3WS6jmBfollBqgG6)
+[Output with and without parameter](https://asciinema.org/a/kkCehHWvm3WS6jmBfollBqgG6) 
+[JSON and YML to Plain](https://asciinema.org/a/HUwqWdLyl0BVqwMej22TiukrO)

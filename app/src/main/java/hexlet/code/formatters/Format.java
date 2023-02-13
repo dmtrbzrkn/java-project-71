@@ -12,6 +12,9 @@ public class Format {
             case "PLAIN" -> {
                 return Plain.format(diff);
             }
+            case "JSON" -> {
+                return JSON.format(diff);
+            }
             default -> throw new Exception("Unknown format for output to the screen: " + outPutFormat);
         }
     }

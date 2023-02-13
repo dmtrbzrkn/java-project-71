@@ -1,11 +1,12 @@
 package hexlet.code;
 
-import hexlet.code.formatters.Stylish;
+import hexlet.code.formatters.Format;
 import hexlet.code.parsers.Factory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.List;
@@ -21,43 +22,49 @@ public class Differ {
     public static final String OLD_VALUE = "oldValue";
     public static final String NEW_VALUE = "newValue";
 
-    public static String generate(String filePath1, String filePath2) throws Exception {
+    public static String generate(String filePath1, String filePath2, String outPutFormat) throws Exception {
         Map<String, Object> originalMap = getData(filePath1);
-        System.out.println(originalMap);
         Map<String, Object> comparedMap = getData(filePath2);
-        System.out.println(comparedMap);
 
         Set<String> keys = new TreeSet<>();
         keys.addAll(originalMap.keySet());
         keys.addAll(comparedMap.keySet());
-        System.out.println(keys);
 
         List<Map<String, Object>> result = new ArrayList<>();
 
         for (String key : keys) {
             var value1 = originalMap.get(key);
-            System.out.println(value1);
             var value2 = comparedMap.get(key);
-            System.out.println(value2);
 
             if (!originalMap.containsKey(key)) {
-                result.add(Map.of(OLD_VALUE, EMPTY_VALUE, NEW_VALUE, value2, ADDED, key));
-                System.out.println(result);
+                Map<String, Object> diff = new HashMap<>();
+                diff.put(ADDED, key);
+                diff.put(OLD_VALUE, EMPTY_VALUE);
+                diff.put(NEW_VALUE, value2);
+                result.add(diff);
             } else if (!comparedMap.containsKey(key)) {
-                result.add(Map.of(MISSING, key, OLD_VALUE, value1, NEW_VALUE, EMPTY_VALUE));
-                System.out.println(result);
+                Map<String, Object> diff = new HashMap<>();
+                diff.put(MISSING, key);
+                diff.put(OLD_VALUE, value1);
+                diff.put(NEW_VALUE, EMPTY_VALUE);
+                result.add(diff);
             } else if (originalMap.containsKey(key) && comparedMap.containsKey(key)) {
-                if (isEquals(value1, value2)) {
-                    result.add(Map.of(UNCHANGED, key, OLD_VALUE, value1, NEW_VALUE, value2));
-                    System.out.println(result);
+                Map<String, Object> diff = new HashMap<>();
+                if (Objects.equals(value1, value2)) {
+                    diff.put(UNCHANGED, key);
                 } else {
-                    result.add(Map.of(CHANGED, key, OLD_VALUE, value1, NEW_VALUE, value2));
-                    System.out.println(result);
+                    diff.put(CHANGED, key);
                 }
+                diff.put(OLD_VALUE, value1);
+                diff.put(NEW_VALUE, value2);
+                result.add(diff);
             }
         }
-        System.out.println(result);
-        return Stylish.format(result);
+        return Format.formatSelection(result, outPutFormat);
+    }
+
+    public static String generate(String filePath1, String filePath2) throws Exception {
+        return generate(filePath1, filePath2, "stylish");
     }
 
     private static Map<String, Object> getData(String filePath) throws Exception {
@@ -72,15 +79,5 @@ public class Differ {
 
     private static String getFileExtension(String pathToFile) {
         return pathToFile.substring(pathToFile.indexOf(".") + 1);
-    }
-
-    private static boolean isEquals(Object value1, Object value2) {
-        if (Objects.nonNull(value1) && Objects.equals(value1, value2)) {
-            return true;
-        } else if (Objects.nonNull(value2) && !Objects.equals(value1, value2)) {
-            return false;
-        } else {
-            return false;
-        }
     }
 }

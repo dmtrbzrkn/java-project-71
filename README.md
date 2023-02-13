@@ -6,4 +6,5 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/781af39e44ee70051d10/test_coverage)](https://codeclimate.com/github/dmtrbzrkn/java-project-71/test_coverage)
 ### ASCIINEMA
 [JSON to Stylish](https://asciinema.org/a/z72c99d3xxVIZNgEoUnL9iqUC) 
-[YML to Stylish](https://asciinema.org/a/dcTJzH6zFv87BABmNyIr2qgUV)
+[YML to Stylish](https://asciinema.org/a/dcTJzH6zFv87BABmNyIr2qgUV) 
+[Output with and without parameter](https://asciinema.org/a/kkCehHWvm3WS6jmBfollBqgG6)

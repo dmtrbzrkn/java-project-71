@@ -18,10 +18,18 @@ public class DifferTest {
             of("src/test/resources/ExpectedStylish.txt"));
 
     @Test
-    void testGenerateStylishOutputFormat() throws Exception {
+    void testGenerateJSONToStylishOutputFormat() throws Exception {
         String jsonTestFilePath1 = "src/test/resources/TestJSON1.json";
         String jsonTestFilePath2 = "src/test/resources/TestJSON2.json";
-        String actualResult = Differ.generate(jsonTestFilePath1, jsonTestFilePath2);
+        String actualResult = Differ.generate(jsonTestFilePath1, jsonTestFilePath2, "stylish");
+        assertThat(actualResult).isEqualTo(expectedStylishResult);
+    }
+
+    @Test
+    void testGenerateYMLToStylishOutPutFormat() throws Exception {
+        String jsonTestFilePath1 = "src/test/resources/TestYML1.yml";
+        String jsonTestFilePath2 = "src/test/resources/TestYML2.yml";
+        String actualResult = Differ.generate(jsonTestFilePath1, jsonTestFilePath2, "stylish");
         assertThat(actualResult).isEqualTo(expectedStylishResult);
     }
 }

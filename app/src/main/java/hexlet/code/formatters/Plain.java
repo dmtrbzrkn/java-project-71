@@ -1,37 +1,41 @@
 package hexlet.code.formatters;
 
-import java.util.Formatter;
-import java.util.List;
-import java.util.Map;
+import hexlet.code.Tree;
+import hexlet.code.Tree.Status;
 
-import static hexlet.code.Differ.ADDED;
-import static hexlet.code.Differ.CHANGED;
-import static hexlet.code.Differ.MISSING;
-import static hexlet.code.Differ.NEW_VALUE;
-import static hexlet.code.Differ.OLD_VALUE;
+import java.util.Map;
+import java.util.List;
+
 
 public class Plain {
-    public static String format(List<Map<String, Object>> result) {
-        StringBuilder output = new StringBuilder();
-        Formatter formatter = new Formatter(output);
-        for (Map<String, Object> entry : result) {
-            for (Object key : entry.keySet()) {
-                if (key.equals(ADDED)) {
-                    String addedValue = isComposite(entry.get(NEW_VALUE));
-                    formatter.format("Property '%s' was added with value: %s%n", entry.get(ADDED), addedValue);
-                } else if (key.equals(MISSING)) {
-                    formatter.format("Property '%s' was removed%n", entry.get(MISSING));
-                } else if (key.equals(CHANGED)) {
-                    String removedValue = isComposite(entry.get(OLD_VALUE));
-                    String addedValue = isComposite(entry.get(NEW_VALUE));
-                    formatter.format("Property '%s' was updated. From %s to %s%n",
-                            entry.get(CHANGED),
-                            removedValue,
-                            addedValue);
+    public static String format(Map<String, Object> data1, Map<String, Object> data2,
+                                Map<String, Tree.Status> differences) throws Exception {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Map.Entry<String, Status> element : differences.entrySet()) {
+            var value1 = data1.get(element.getKey());
+            var value2 = data2.get(element.getKey());
+
+            var composite1 = isComposite(value1);
+            var composite2 = isComposite(value2);
+
+            var status = element.getValue();
+
+            switch (status) {
+                case ADDED -> stringBuilder.append("Property " + "'").append(element.getKey())
+                        .append("'").append(" was added with value: ").append(composite2)
+                        .append("\n");
+                case DELETED -> stringBuilder.append("Property " + "'").append(element.getKey())
+                        .append("'").append(" was removed").append("\n");
+                case CHANGED -> stringBuilder.append("Property " + "'").append(element.getKey()).append("'")
+                        .append(" was updated. ").append("From ").append(composite1)
+                        .append(" to ").append(composite2).append("\n");
+                case UNCHANGED -> {
                 }
+                default -> throw new Exception("Something wrong!");
             }
         }
-        return output.toString().trim();
+        return stringBuilder.toString();
     }
 
     public static String isComposite(Object value) {

@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import hexlet.code.formatters.Format;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -16,9 +17,9 @@ public class App implements Callable<Integer> {
     @Parameters(index = "1", paramLabel = "filepath2",
             description = "path to second file")
     private String filePath2;
-    @Option(names = {"-f", "--format"}, defaultValue = "stylish", paramLabel = "format",
+    @Option(names = {"-f", "--format"}, defaultValue = "STYLISH", paramLabel = "format",
             description = "output format [default: ${DEFAULT-VALUE}]")
-    private String formatName;
+    private Format.Formats formatName;
 
     public static void main(String[] args) {
         int exitCode = new CommandLine(new App()).execute(args);

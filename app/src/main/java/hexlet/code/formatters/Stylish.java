@@ -1,39 +1,32 @@
 package hexlet.code.formatters;
 
-import java.util.List;
+import hexlet.code.Tree;
+import hexlet.code.Tree.Status;
+
 import java.util.Map;
 
-import static hexlet.code.Differ.CHANGED;
-import static hexlet.code.Differ.ADDED;
-import static hexlet.code.Differ.MISSING;
-import static hexlet.code.Differ.NEW_VALUE;
-import static hexlet.code.Differ.UNCHANGED;
-import static hexlet.code.Differ.OLD_VALUE;
-
 public class Stylish {
-    public static String format(List<Map<String, Object>> result) {
-        StringBuilder stylish = new StringBuilder("{\n");
-        for (Map<String, Object> entry : result) {
-            for (Object key : entry.keySet()) {
-                if (key.equals(ADDED)) {
-                    stylish.append("  + ").append(entry.get(ADDED)).append(": ")
-                            .append(entry.get(NEW_VALUE)).append("\n");
-                } else if (key.equals(MISSING)) {
-                    stylish.append("  - ").append(entry.get(MISSING)).append(": ")
-                            .append(entry.get(OLD_VALUE)).append("\n");
-                } else if (key.equals(UNCHANGED)) {
-                    stylish.append("    ").append(entry.get(UNCHANGED))
-                            .append(": ").append(entry.get(OLD_VALUE)).append("\n");
-                } else if (key.equals(CHANGED)) {
-                    stylish.append("  - ").append(entry.get(CHANGED)).append(": ")
-                            .append(entry.get(OLD_VALUE)).append("\n");
-                    stylish.append("  + ").append(entry.get(CHANGED))
-                            .append(": ").append(entry.get(NEW_VALUE)).append("\n");
+    public static String format(Map<String, Object> data1, Map<String, Object> data2,
+                                Map<String, Tree.Status> differences) {
+        StringBuilder stringBuilder = new StringBuilder("{\n");
+
+        for (Map.Entry<String, Status> element : differences.entrySet()) {
+            switch (element.getValue()) {
+                case ADDED -> stringBuilder.append("  + ").append(element.getKey()).append(": ")
+                        .append(data2.get(element.getKey())).append("\n");
+                case DELETED -> stringBuilder.append("  - ").append(element.getKey())
+                        .append(": ").append(data1.get(element.getKey())).append("\n");
+                case CHANGED -> stringBuilder.append("    ").append(element.getKey())
+                        .append(": ").append(data1.get(element.getKey())).append("\n");
+                case UNCHANGED -> stringBuilder.append("  - ").append(element.getKey()).append(": ")
+                        .append(data2.get(element.getKey())).append("\n").append("  + ")
+                        .append(element.getKey()).append(": ").append(data2.get(element.getKey())).append("\n");
+                default -> {
+                    return "Something went wrong!";
                 }
             }
         }
-        stylish.append("}");
-
-        return stylish.toString();
+        stringBuilder.append("}");
+        return stringBuilder.toString();
     }
 }

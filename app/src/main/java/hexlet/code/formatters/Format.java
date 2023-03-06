@@ -1,21 +1,30 @@
 package hexlet.code.formatters;
 
-import java.util.List;
+import hexlet.code.Tree.Status;
+
 import java.util.Map;
 
 public class Format {
-    public static String formatSelection(List<Map<String, Object>> diff, String outPutFormat) throws Exception {
-        switch (outPutFormat.toUpperCase()) {
-            case "STYLISH" -> {
-                return Stylish.format(diff);
+    public enum Formats {
+        STYLISH,
+        PLAIN,
+        JSON
+
+    }
+
+    public static String formatSelection(Map<String, Object> data1, Map<String, Object> data2,
+                                         Map<String, Status> differences, Formats format) throws Exception {
+        switch (format) {
+            case STYLISH -> {
+                return Stylish.format(data1, data2, differences);
             }
-            case "PLAIN" -> {
-                return Plain.format(diff);
+            case PLAIN -> {
+                return Plain.format(data1, data2, differences);
             }
-            case "JSON" -> {
-                return JSON.format(diff);
+            case JSON -> {
+                return JSON.format(data1, data2, differences);
             }
-            default -> throw new Exception("Unknown format for output to the screen: " + outPutFormat);
+            default -> throw new Exception("Unknown format for output to the screen: " + format);
         }
     }
 }

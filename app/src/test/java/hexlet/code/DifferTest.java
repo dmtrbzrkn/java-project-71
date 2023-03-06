@@ -13,10 +13,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class DifferTest {
-    final String jsonTestFilePath1 = "src/test/resources/TestJSON1.json";
-    final String jsonTestFilePath2 = "src/test/resources/TestJSON2.json";
-    final String ymlTestFilePath1 = "src/test/resources/TestYML1.yml";
-    final String ymlTestFilePath2 = "src/test/resources/TestYML2.yml";
+    private final String jsonTestFilePath1 = "src/test/resources/TestJSON1.json";
+    private final String jsonTestFilePath2 = "src/test/resources/TestJSON2.json";
+    private final String ymlTestFilePath1 = "src/test/resources/TestYML1.yml";
+    private final String ymlTestFilePath2 = "src/test/resources/TestYML2.yml";
 
     public DifferTest() throws IOException {
 

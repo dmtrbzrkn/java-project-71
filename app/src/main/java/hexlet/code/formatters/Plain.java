@@ -35,7 +35,7 @@ public class Plain {
                 default -> throw new Exception("Something wrong!");
             }
         }
-        return stringBuilder.toString();
+        return stringBuilder.toString().trim();
     }
 
     public static String isComposite(Object value) {

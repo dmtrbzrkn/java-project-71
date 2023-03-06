@@ -9,11 +9,11 @@ import java.nio.file.Path;
 import java.util.Map;
 
 import static hexlet.code.Tree.genDiff;
-import static hexlet.code.formatters.Format.Formats.STYLISH;
+import static hexlet.code.formatters.Format.STYLISH;
 
 public class Differ {
 
-    public static String generate(String filePath1, String filePath2, Format.Formats outPutFormat) throws Exception {
+    public static String generate(String filePath1, String filePath2, String outPutFormat) throws Exception {
         Map<String, Object> originalMap = getData(filePath1);
         Map<String, Object> comparedMap = getData(filePath2);
         Map<String, Status> differences = genDiff(originalMap, comparedMap);

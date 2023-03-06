@@ -5,23 +5,20 @@ import hexlet.code.Tree.Status;
 import java.util.Map;
 
 public class Format {
-    public enum Formats {
-        STYLISH,
-        PLAIN,
-        JSON
-
-    }
+    public static final String STYLISH = "stylish";
+    public static final String PLAIN = "plain";
+    public static final String JSON_FORMAT = "json";
 
     public static String formatSelection(Map<String, Object> data1, Map<String, Object> data2,
-                                         Map<String, Status> differences, Formats format) throws Exception {
+                                         Map<String, Status> differences, String format) throws Exception {
         switch (format) {
-            case STYLISH -> {
+            case "stylish" -> {
                 return Stylish.format(data1, data2, differences);
             }
-            case PLAIN -> {
+            case "plain" -> {
                 return Plain.format(data1, data2, differences);
             }
-            case JSON -> {
+            case "json" -> {
                 return JSON.format(data1, data2, differences);
             }
             default -> throw new Exception("Unknown format for output to the screen: " + format);

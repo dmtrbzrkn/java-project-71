@@ -1,38 +1,55 @@
 package hexlet.code;
 
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 
 public class Tree {
-    public enum Status {
-        ADDED,
-        DELETED,
-        CHANGED,
-        UNCHANGED
-    }
+    public static final String ADDED = "added";
+    public static final String DELETED = "deleted";
+    public static final String CHANGED = "changed";
+    public static final String UNCHANGED = "unchanged";
+    public static final String OLD_VALUE = "oldValue";
+    public static final String NEW_VALUE = "newValue";
 
-    public static Map<String, Status> genDiff(Map<String, Object> data1, Map<String, Object> data2) {
-        Map<String, Status> result = new TreeMap<>();
+    public static List<Map<String, Object>> genDiff(Map<String, Object> firstFileData,
+                                                    Map<String, Object> secondFileData) {
+        List<Map<String, Object>> result = new ArrayList<>();
 
-        Set<String> keys = new HashSet<>(data1.keySet());
-        keys.addAll(data2.keySet());
+        Set<String> keys = new TreeSet<>(firstFileData.keySet());
+        keys.addAll(secondFileData.keySet());
 
         for (String key : keys) {
-            if (!data1.containsKey(key)) {
-                result.put(key, Status.ADDED);
-            } else if (!data2.containsKey(key)) {
-                result.put(key, Status.DELETED);
-            } else {
-                if (Objects.equals(data2.get(key), data1.get(key))) {
-                    result.put(key, Status.UNCHANGED);
+            Map<String, Object> diff = new TreeMap<>();
+            if (!firstFileData.containsKey(key)) {
+                diff.put(key, ADDED);
+                diff.put(OLD_VALUE, firstFileData.get(key));
+                diff.put(NEW_VALUE, secondFileData.get(key));
+                result.add(diff);
+            } else if (!secondFileData.containsKey(key)) {
+                diff.put(key, DELETED);
+                diff.put(OLD_VALUE, firstFileData.get(key));
+                diff.put(NEW_VALUE, secondFileData.get(key));
+                result.add(diff);
+            } else if (firstFileData.containsKey(key) && secondFileData.containsKey(key)) {
+                if (Objects.equals(firstFileData.get(key), secondFileData.get(key))) {
+                    diff.put(key, UNCHANGED);
                 } else {
-                    result.put(key, Status.CHANGED);
+                    diff.put(key, CHANGED);
                 }
+                diff.put(OLD_VALUE, firstFileData.get(key));
+                diff.put(NEW_VALUE, secondFileData.get(key));
+                result.add(diff);
             }
         }
+        System.out.println(result);
         return result;
     }
+
+//    private static String nullToString(Object object) {
+//        if (object == null) {
+//            return "null";
+//        } else {
+//            return object.toString();
+//        }
+//    }
+
 }

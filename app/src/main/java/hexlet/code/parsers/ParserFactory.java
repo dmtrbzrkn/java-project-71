@@ -1,7 +1,7 @@
 package hexlet.code.parsers;
 
 
-public class Factory {
+public class ParserFactory {
 
     public static Parser getParser(String dataFormat) throws Exception {
         return switch (dataFormat.toUpperCase()) {

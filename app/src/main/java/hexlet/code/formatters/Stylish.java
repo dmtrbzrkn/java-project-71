@@ -1,32 +1,39 @@
 package hexlet.code.formatters;
 
-import hexlet.code.Tree;
-import hexlet.code.Tree.Status;
 
+import java.util.List;
 import java.util.Map;
 
-public class Stylish {
-    public static String format(Map<String, Object> data1, Map<String, Object> data2,
-                                Map<String, Tree.Status> differences) {
-        StringBuilder stringBuilder = new StringBuilder("{\n");
+import static hexlet.code.Tree.ADDED;
+import static hexlet.code.Tree.DELETED;
+import static hexlet.code.Tree.CHANGED;
+import static hexlet.code.Tree.UNCHANGED;
+import static hexlet.code.Tree.OLD_VALUE;
+import static hexlet.code.Tree.NEW_VALUE;
 
-        for (Map.Entry<String, Status> element : differences.entrySet()) {
-            switch (element.getValue()) {
-                case ADDED -> stringBuilder.append("  + ").append(element.getKey()).append(": ")
-                        .append(data2.get(element.getKey())).append("\n");
-                case DELETED -> stringBuilder.append("  - ").append(element.getKey())
-                        .append(": ").append(data1.get(element.getKey())).append("\n");
-                case CHANGED -> stringBuilder.append("  - ").append(element.getKey()).append(": ")
-                        .append(data1.get(element.getKey())).append("\n").append("  + ")
-                        .append(element.getKey()).append(": ").append(data2.get(element.getKey())).append("\n");
-                case UNCHANGED -> stringBuilder.append("    ").append(element.getKey())
-                        .append(": ").append(data1.get(element.getKey())).append("\n");
-                default -> {
-                    return "Something went wrong!";
+public class Stylish {
+    public static String format(List<Map<String, Object>> differences) {
+        StringBuilder result = new StringBuilder("{\n");
+        for (Map<String, Object> map : differences) {
+            for (String key : map.keySet()) {
+                Object o = map.get(key);
+                if (o.equals(ADDED)) {
+                    result.append("  + ").append(key).append(": ").append(map.get(NEW_VALUE))
+                            .append("\n");
+                } else if (o.equals(DELETED)) {
+                    result.append("  - ").append(key).append(": ").append(map.get(OLD_VALUE))
+                            .append("\n");
+                } else if (o.equals(CHANGED)) {
+                    result.append("  - ").append(key).append(": ").append(map.get(OLD_VALUE))
+                            .append("\n").append("  + ").append(key).append(": ")
+                            .append(map.get(NEW_VALUE)).append("\n");
+                } else if (o.equals(UNCHANGED)) {
+                    result.append("    ").append(key).append(": ").append(map.get(OLD_VALUE))
+                            .append("\n");
                 }
             }
         }
-        stringBuilder.append("}");
-        return stringBuilder.toString();
+        result.append("}");
+        return result.toString();
     }
 }

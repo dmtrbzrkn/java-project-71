@@ -2,8 +2,8 @@ package hexlet.code;
 
 import org.junit.jupiter.api.Test;
 
-import static hexlet.code.formatters.Format.STYLISH;
-import static hexlet.code.formatters.Format.PLAIN;
+import static hexlet.code.formatters.Formatter.STYLISH;
+import static hexlet.code.formatters.Formatter.PLAIN;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

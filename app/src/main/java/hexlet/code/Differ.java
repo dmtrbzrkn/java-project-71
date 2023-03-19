@@ -1,23 +1,23 @@
 package hexlet.code;
 
-import hexlet.code.formatters.Format;
-import hexlet.code.parsers.Factory;
-import hexlet.code.Tree.Status;
+import hexlet.code.formatters.Formatter;
+import hexlet.code.parsers.ParserFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
 
 import static hexlet.code.Tree.genDiff;
-import static hexlet.code.formatters.Format.STYLISH;
+import static hexlet.code.formatters.Formatter.STYLISH;
 
 public class Differ {
 
     public static String generate(String filePath1, String filePath2, String outPutFormat) throws Exception {
-        Map<String, Object> originalMap = getData(filePath1);
-        Map<String, Object> comparedMap = getData(filePath2);
-        Map<String, Status> differences = genDiff(originalMap, comparedMap);
-        return Format.formatSelection(originalMap, comparedMap, differences, outPutFormat);
+        Map<String, Object> firstFileData = getData(filePath1);
+        Map<String, Object> secondFileData = getData(filePath2);
+        List<Map<String, Object>> diff = genDiff(firstFileData, secondFileData);
+        return Formatter.formatSelection(diff, outPutFormat);
     }
 
     public static String generate(String filePath1, String filePath2) throws Exception {
@@ -30,7 +30,7 @@ public class Differ {
             throw new Exception("File '" + path + "' does not exist");
         }
         String contents = Files.readString(path);
-        var parser = Factory.getParser(getFileExtension(String.valueOf(path)));
+        var parser = ParserFactory.getParser(getFileExtension(String.valueOf(path)));
         return parser.parse(contents);
     }
 

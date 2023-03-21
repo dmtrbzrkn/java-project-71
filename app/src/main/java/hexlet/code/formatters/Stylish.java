@@ -1,39 +1,37 @@
 package hexlet.code.formatters;
 
 
-import java.util.List;
+import hexlet.code.StatusChange;
+
 import java.util.Map;
 
-import static hexlet.code.Tree.ADDED;
-import static hexlet.code.Tree.DELETED;
-import static hexlet.code.Tree.CHANGED;
-import static hexlet.code.Tree.UNCHANGED;
-import static hexlet.code.Tree.OLD_VALUE;
-import static hexlet.code.Tree.NEW_VALUE;
+import static hexlet.code.StatusChange.ADDED;
+import static hexlet.code.StatusChange.DELETED;
+import static hexlet.code.StatusChange.CHANGED;
+import static hexlet.code.StatusChange.UNCHANGED;
 
 public class Stylish {
-    public static String format(List<Map<String, Object>> differences) {
-        StringBuilder result = new StringBuilder("{\n");
-        for (Map<String, Object> map : differences) {
-            for (String key : map.keySet()) {
-                Object o = map.get(key);
-                if (o.equals(ADDED)) {
-                    result.append("  + ").append(key).append(": ").append(map.get(NEW_VALUE))
-                            .append("\n");
-                } else if (o.equals(DELETED)) {
-                    result.append("  - ").append(key).append(": ").append(map.get(OLD_VALUE))
-                            .append("\n");
-                } else if (o.equals(CHANGED)) {
-                    result.append("  - ").append(key).append(": ").append(map.get(OLD_VALUE))
-                            .append("\n").append("  + ").append(key).append(": ")
-                            .append(map.get(NEW_VALUE)).append("\n");
-                } else if (o.equals(UNCHANGED)) {
-                    result.append("    ").append(key).append(": ").append(map.get(OLD_VALUE))
-                            .append("\n");
+    public static String format(Map<String, StatusChange> differences) {
+        StringBuilder stylish = new StringBuilder("{\n");
+        for (Map.Entry<String, StatusChange> entry : differences.entrySet()) {
+            String key = entry.getKey();
+            String status = entry.getValue().getStatus();
+            var oldValue = entry.getValue().getOldValue();
+            var newValue = entry.getValue().getNewValue();
+
+            switch (status) {
+                case ADDED -> stylish.append("  + ").append(key).append(": ").append(newValue).append("\n");
+                case DELETED -> stylish.append("  - ").append(key).append(": ").append(oldValue).append("\n");
+                case CHANGED -> {
+                    stylish.append("  - ").append(key).append(": ").append(oldValue).append("\n");
+                    stylish.append("  + ").append(key).append(": ").append(newValue).append("\n");
                 }
+                case UNCHANGED -> stylish.append("    ").append(key).append(": ").append(oldValue).append("\n");
+                default -> throw new RuntimeException("No such status: " + status);
             }
         }
-        result.append("}");
-        return result.toString();
+        stylish.append("}");
+
+        return stylish.toString();
     }
 }

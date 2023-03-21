@@ -5,7 +5,6 @@ import hexlet.code.parsers.ParserFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Map;
 
 import static hexlet.code.Tree.genDiff;
@@ -16,7 +15,7 @@ public class Differ {
     public static String generate(String filePath1, String filePath2, String outPutFormat) throws Exception {
         Map<String, Object> firstFileData = getData(filePath1);
         Map<String, Object> secondFileData = getData(filePath2);
-        List<Map<String, Object>> diff = genDiff(firstFileData, secondFileData);
+        Map<String, StatusChange> diff = genDiff(firstFileData, secondFileData);
         return Formatter.formatSelection(diff, outPutFormat);
     }
 

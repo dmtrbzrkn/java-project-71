@@ -1,7 +1,8 @@
 package hexlet.code.formatters;
 
 
-import java.util.List;
+import hexlet.code.StatusChange;
+
 import java.util.Map;
 
 public class Formatter {
@@ -9,7 +10,7 @@ public class Formatter {
     public static final String PLAIN = "plain";
     public static final String JSON_FORMAT = "json";
 
-    public static String formatSelection(List<Map<String, Object>> differences, String format) throws Exception {
+    public static String formatSelection(Map<String, StatusChange> differences, String format) throws Exception {
         switch (format) {
             case STYLISH -> {
                 return Stylish.format(differences);

@@ -1,36 +1,44 @@
 package hexlet.code.formatters;
 
+import hexlet.code.StatusChange;
+
+import java.util.Formatter;
 import java.util.Map;
 import java.util.List;
 
-import static hexlet.code.Tree.ADDED;
-import static hexlet.code.Tree.DELETED;
-import static hexlet.code.Tree.CHANGED;
-import static hexlet.code.Tree.OLD_VALUE;
-import static hexlet.code.Tree.NEW_VALUE;
-
+import static hexlet.code.StatusChange.ADDED;
+import static hexlet.code.StatusChange.DELETED;
+import static hexlet.code.StatusChange.CHANGED;
+import static hexlet.code.StatusChange.UNCHANGED;
 
 public class Plain {
-    public static String format(List<Map<String, Object>> differences) {
-        StringBuilder result = new StringBuilder();
-        for (Map<String, Object> map : differences) {
-            for (String key : map.keySet()) {
-                Object o = map.get(key);
-                if (o.equals(ADDED)) {
-                    result.append("Property " + "'").append(key)
-                            .append("'").append(" was added with value: ").append(isComposite(map.get(NEW_VALUE)))
-                            .append("\n");
-                } else if (o.equals(DELETED)) {
-                    result.append("Property " + "'").append(key)
-                            .append("'").append(" was removed").append("\n");
-                } else if (o.equals(CHANGED)) {
-                    result.append("Property " + "'").append(key).append("'")
-                            .append(" was updated. ").append("From ").append(isComposite(map.get(OLD_VALUE)))
-                            .append(" to ").append(isComposite(map.get(NEW_VALUE))).append("\n");
+    public static String format(Map<String, StatusChange> differences) {
+        StringBuilder stylish = new StringBuilder();
+        Formatter formatter = new Formatter(stylish);
+
+        for (Map.Entry<String, StatusChange> entry : differences.entrySet()) {
+
+            String key = entry.getKey();
+            StatusChange value = entry.getValue();
+
+            switch (value.getStatus()) {
+                case ADDED -> {
+                    String addedValue = isComposite(value.getNewValue());
+                    formatter.format("Property '%s' was added with value: %s%n", key, addedValue);
                 }
+                case DELETED -> formatter.format("Property '%s' was removed%n", key);
+                case UNCHANGED -> {
+
+                }
+                case CHANGED -> {
+                    String oldValue = isComposite(value.getOldValue());
+                    String newValue = isComposite(value.getNewValue());
+                    formatter.format("Property '%s' was updated. From %s to %s%n", key, oldValue, newValue);
+                }
+                default -> throw new IllegalStateException("No such status: " + value.getStatus());
             }
         }
-        return result.toString().trim();
+        return stylish.toString().trim();
     }
 
     public static String isComposite(Object value) {

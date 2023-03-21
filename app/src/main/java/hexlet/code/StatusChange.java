@@ -1,6 +1,6 @@
 package hexlet.code;
 
-public class StatusChange {
+public final class StatusChange {
     public static final String ADDED = "added";
     public static final String DELETED = "deleted";
     public static final String CHANGED = "changed";

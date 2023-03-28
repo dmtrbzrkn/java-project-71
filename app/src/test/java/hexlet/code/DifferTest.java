@@ -13,11 +13,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class DifferTest {
-    private final String pathToResources = "src/test/resources/";
-    private final String jsonTestFilePath1 = "src/test/resources/TestJSON1.json";
-    private final String jsonTestFilePath2 = "src/test/resources/TestJSON2.json";
-    private final String ymlTestFilePath1 = "src/test/resources/TestYML1.yml";
-    private final String ymlTestFilePath2 = "src/test/resources/TestYML2.yml";
+    private final String pathToResources = "src/test/resources";
+    private final String jsonTestFilePath1 = pathToResources + "/TestJSON1.json";
+    private final String jsonTestFilePath2 = pathToResources + "/TestJSON2.json";
+    private final String ymlTestFilePath1 = pathToResources + "/TestYML1.yml";
+    private final String ymlTestFilePath2 = pathToResources + "/TestYML2.yml";
 
     public DifferTest() throws IOException {
 
@@ -28,11 +28,6 @@ public class DifferTest {
     private final String expectedPlainResult = Files.readString(Path.
             of("src/test/resources/ExpectedPlay.txt"));
 
-    @Test
-    void testDefaultFormat() throws Exception {
-        String actualResult = Differ.generate(pathToResources + "TestJSON1.json", pathToResources + "TestJSON2.json");
-        assertThat(actualResult).isEqualTo(expectedStylishResult);
-    }
 
     @Test
     void testDefaultOutPutFormat() throws Exception {

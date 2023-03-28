@@ -1,6 +1,7 @@
 package hexlet.code.formatters;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import hexlet.code.StatusChange;
 
 import java.util.Map;
@@ -10,7 +11,7 @@ public class Formatter {
     public static final String PLAIN = "plain";
     public static final String JSON_FORMAT = "json";
 
-    public static String formatSelection(Map<String, StatusChange> differences, String format) throws Exception {
+    public static String format(Map<String, StatusChange> differences, String format) throws JsonProcessingException {
         switch (format) {
             case STYLISH -> {
                 return Stylish.format(differences);
@@ -21,7 +22,7 @@ public class Formatter {
             case JSON_FORMAT -> {
                 return JSON.format(differences);
             }
-            default -> throw new Exception("Unknown format for output to the screen: " + format);
+            default -> throw new Error("Unknown format for output to the screen: " + format);
         }
     }
 }

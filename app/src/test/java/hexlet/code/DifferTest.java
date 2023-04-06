@@ -25,9 +25,9 @@ public class DifferTest {
 
     }
 
-    static String expectedStylishResult;
-    static String expectedPlainResult;
-    static String expectedJSONResult;
+    private static String expectedStylishResult;
+    private static String expectedPlainResult;
+    private static String expectedJSONResult;
 
     @BeforeAll
     public static void beforeAll() throws IOException {

@@ -23,7 +23,7 @@ public class Plain {
 
             switch (value.getStatus()) {
                 case ADDED -> {
-                    String addedValue = isComposite(value.getNewValue());
+                    String addedValue = toStringRepresentation(value.getNewValue());
                     formatter.format("Property '%s' was added with value: %s%n", key, addedValue);
                 }
                 case DELETED -> formatter.format("Property '%s' was removed%n", key);
@@ -31,8 +31,8 @@ public class Plain {
 
                 }
                 case CHANGED -> {
-                    String oldValue = isComposite(value.getOldValue());
-                    String newValue = isComposite(value.getNewValue());
+                    String oldValue = toStringRepresentation(value.getOldValue());
+                    String newValue = toStringRepresentation(value.getNewValue());
                     formatter.format("Property '%s' was updated. From %s to %s%n", key, oldValue, newValue);
                 }
                 default -> throw new IllegalStateException("No such status: " + value.getStatus());
@@ -41,7 +41,7 @@ public class Plain {
         return stylish.toString().trim();
     }
 
-    public static String isComposite(Object value) {
+    public static String toStringRepresentation(Object value) {
         if (value == null) {
             return "null";
         }

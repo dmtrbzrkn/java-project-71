@@ -1,9 +1,11 @@
 package hexlet.code;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static hexlet.code.formatters.Formatter.STYLISH;
 import static hexlet.code.formatters.Formatter.PLAIN;
+import static hexlet.code.formatters.Formatter.JSON_FORMAT;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,14 +21,23 @@ public class DifferTest {
     private final String ymlTestFilePath1 = pathToResources + "/TestYML1.yml";
     private final String ymlTestFilePath2 = pathToResources + "/TestYML2.yml";
 
-    public DifferTest() throws IOException {
+    public DifferTest() {
 
     }
 
-    private final String expectedStylishResult = Files.readString(Path.
-            of("src/test/resources/ExpectedStylish.txt"));
-    private final String expectedPlainResult = Files.readString(Path.
-            of("src/test/resources/ExpectedPlay.txt"));
+    static String expectedStylishResult;
+    static String expectedPlainResult;
+    static String expectedJSONResult;
+
+    @BeforeAll
+    public static void beforeAll() throws IOException {
+        expectedStylishResult = Files.readString(Path.
+                of("src/test/resources/ExpectedStylish.txt"));
+        expectedPlainResult = Files.readString(Path.
+                of("src/test/resources/ExpectedPlain.txt"));
+        expectedJSONResult = Files.readString(Path.
+                of("src/test/resources/ExpectedJSON.txt"));
+    }
 
 
     @Test
@@ -63,6 +74,18 @@ public class DifferTest {
         assertThat(actualResult).isEqualTo(expectedPlainResult);
     }
 
+    @Test
+    void testGenerateJSONToJSONOutputFormat() throws Exception {
+        String actualResult = Differ.generate(jsonTestFilePath1, jsonTestFilePath2, JSON_FORMAT);
+        assertThat(actualResult).isEqualTo(expectedJSONResult);
+    }
+
+    @Test
+    void testGenerateYMLToJSONOutputFormat() throws Exception {
+        String actualResult = Differ.generate(ymlTestFilePath1, ymlTestFilePath2, JSON_FORMAT);
+        assertThat(actualResult).isEqualTo(expectedJSONResult);
+    }
+
 
     @Test
     void testWithDifferentFormats1() throws Exception {
@@ -89,5 +112,14 @@ public class DifferTest {
 
         assertThat(actualResult1).isEqualTo(expectedStylishResult);
         assertThat(actualResult2).isEqualTo(expectedStylishResult);
+    }
+
+    @Test
+    void testWithDifferentFormats4() throws Exception {
+        String actualResult1 = Differ.generate(jsonTestFilePath1, ymlTestFilePath2, JSON_FORMAT);
+        String actualResult2 = Differ.generate(ymlTestFilePath1, jsonTestFilePath2, JSON_FORMAT);
+
+        assertThat(actualResult1).isEqualTo(expectedJSONResult);
+        assertThat(actualResult2).isEqualTo(expectedJSONResult);
     }
 }
